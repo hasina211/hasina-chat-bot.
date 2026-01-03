@@ -3,55 +3,74 @@ const axios = require("axios");
 module.exports = {
   config: {
     name: "ai",
-    version: "1.0.1",
-    credit: "—͟͟͞͞𝐂𝐘𝐁𝐄𝐑 ☢️_𖣘 -𝐁𝐎𝐓 ⚠️ 𝑻𝑬𝑨𝑴_ ☢️",
-    description: "google ai",
+    version: "1.0.0",
+    credits: "SHAHADAT SAHU", //please don't change credit
     cooldowns: 0,
     hasPermssion: 0,
-    commandCategory: "google",
-    usages: {
-      en: "{pn} message | photo reply"
-    }
+    usePrefix: true
   },
 
   run: async ({ api, args, event }) => {
-    const input = args.join(" ");
-    const encodedApi = "aHR0cHM6Ly9hcGlzLWtlaXRoLnZlcmNlbC5hcHAvYWkvZGVlcHNlZWtWMz9xPQ==";
-    const apiUrl = Buffer.from(encodedApi, "base64").toString("utf-8");
+    const threadID = event.threadID;
+    const messageID = event.messageID;
+    const input = args.join(" ").trim();
 
-    if (event.type === "message_reply") {
-      try {
-        const imageUrl = event.messageReply.attachments[0]?.url;
-        if (!imageUrl)
-          return api.sendMessage("Please reply to an image.", event.threadID, event.messageID);
-
-        const res = await axios.post(`${apiUrl}${encodeURIComponent(input || "Describe this image.")}`, {
-          image: imageUrl
-        });
-
-        const result = res.data.result || res.data.response || res.data.message || "No response from AI.";
-        api.sendMessage(result, event.threadID, event.messageID);
-      } catch (err) {
-        console.error("Error:", err.message);
-        api.sendMessage("processing.....", event.threadID, event.messageID);
-      }
-    } else {
-      if (!input) {
-        return api.sendMessage(
-          "Hey I'm Ai Chat Bot\nHow can I assist you today?",
-          event.threadID,
-          event.messageID
-        );
-      }
-
-      try {
-        const res = await axios.get(`${apiUrl}${encodeURIComponent(input)}`);
-        const result = res.data.result || res.data.response || res.data.message || "No response from AI.";
-        api.sendMessage(result, event.threadID, event.messageID);
-      } catch (err) {
-        console.error("Error:", err.message);
-        api.sendMessage("Boss SAHU re Dakh ei file gece 😑", event.threadID, event.messageID);
-      }
+    let SAHU;
+    try {
+      SAHU = (
+        await axios.get(
+          "https://raw.githubusercontent.com/shahadat-sahu/SAHU-API/refs/heads/main/SAHU-API.json"
+        )
+      ).data;
+    } catch {
+      return api.sendMessage(
+        "❌ Failed to load AI configuration.",
+        threadID,
+        messageID
+      );
     }
+
+    const AI_API = SAHU.ai;
+
+    const askAI = async (text) => {
+      try {
+        const res = await axios.get(AI_API + encodeURIComponent(text));
+        return (
+          res.data?.answer ||
+          res.data?.response ||
+          res.data?.reply ||
+          "⚠️ No response from AI."
+        );
+      } catch {
+        return "❌ AI request failed.";
+      }
+    };
+
+    const reactDone = () =>
+      api.setMessageReaction("✅", messageID, () => {}, true);
+
+    if (
+      event.type === "message_reply" &&
+      event.messageReply.body &&
+      !input
+    ) {
+      api.setMessageReaction("⏳", messageID, () => {}, true);
+      const reply = await askAI(event.messageReply.body);
+      await api.sendMessage(reply, threadID);
+      return reactDone();
+    }
+
+    if (!input) {
+      return api.sendMessage(
+        "🤖 AI Usage Guide\n\n• Ask a question: /ai your question\n• Reply to any message and type /ai\n• Reply without a question to get an automatic answer",
+        threadID,
+        messageID
+      );
+    }
+
+    api.setMessageReaction("⏳", messageID, () => {}, true);
+    const reply = await askAI(input);
+    await api.sendMessage(reply, threadID);
+    return reactDone();
   }
 };
