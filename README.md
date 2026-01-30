@@ -40,8 +40,6 @@
   <!-- ⭐ Fork Views -->
   <img src="https://komarev.com/ghpvc/?username=shahadat-sahu&label=Fork%20Views&color=blueviolet&style=for-the-badge" alt="Fork Views">
 
-  <!-- ⭐ Releases -->
-  <img src="https://img.shields.io/github/downloads/shahadat-sahu/SHAHADAT-CHAT-BOT/total?style=for-the-badge" alt="Releases">
 
   <!-- ⭐ Original Repository -->
   <a href="https://github.com/shahadat-sahu/SHAHADAT-CHAT-BOT">
