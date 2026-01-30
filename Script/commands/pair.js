@@ -6,37 +6,28 @@ module.exports.config = {
   name: "pair",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "SHAHADAT SAHU", //please don't change credit✅ 
+  credits: "SHAHADAT SAHU", //don't change chadit✅
   description: "Generate a couple banner image using sender and random group member via Avatar Canvas API",
   commandCategory: "banner",
   usePrefix: true,
   usages: "pair",
-  cooldowns: 5,
-  dependencies: {
-    "axios": "",
-    "fs-extra": "",
-    "path": ""
-  }
+  cooldowns: 5
 };
 
-module.exports.run = async function ({ event, api }) {
+module.exports.run = async function ({ event, api, Users }) {
   const { threadID, messageID, senderID } = event;
 
   try {
     const threadInfo = await api.getThreadInfo(threadID);
-    const members = threadInfo.participantIDs.filter(
-      id => id !== senderID && id !== api.getCurrentUserID()
-    );
+    const botID = api.getCurrentUserID();
+    const members = threadInfo.userInfo.filter(u => u.id !== senderID && u.id !== botID);
 
-    if (!members.length) {
-      return api.sendMessage(
-        "Please reply or mention someone......",
-        threadID,
-        messageID
-      );
+    if (members.length === 0) {
+      return api.sendMessage("Please reply or mention someone......", threadID, messageID);
     }
 
-    const targetID = members[Math.floor(Math.random() * members.length)];
+    const randomUser = members[Math.floor(Math.random() * members.length)];
+    const targetID = randomUser.id;
 
     const apiList = await axios.get(
       "https://raw.githubusercontent.com/shahadat-sahu/SAHU-API/refs/heads/main/SAHU-API.json"
@@ -64,7 +55,6 @@ module.exports.run = async function ({ event, api }) {
     );
 
   } catch (err) {
-    console.error("🔥 Pair Command Error:", err.message);
     return api.sendMessage("API Error Call Boss SAHU", threadID, messageID);
   }
 };
