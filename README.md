@@ -89,12 +89,27 @@ jobs:
 ```
 
 ___
-
-## HOW TO RUN THIS CHAT BOT 🚀
+## HOW TO US THIS PROJECT 🚀
 
 [![Watch Tutorial](https://img.shields.io/badge/%20%20%20%20%20WATCH%20FULL%20TUTORIAL%20%20%20%20%20-YOUTUBE-red?logo=youtube&logoColor=white&style=for-the-badge)](https://youtu.be/blg0O7IgcrA?si=vpz42AK06uIblLN9)
 
 Click the image above to watch the step-by-step tutorial on YouTube.
+
+<br>
+
+<p align="center">
+
+  <!-- ⭐ Fork Button -->
+  <a href="https://github.com/shahadat-sahu/SHAHADAT-CHAT-BOT/fork">
+    <img src="https://img.shields.io/badge/FORK%20REPOSITORY-blue?style=for-the-badge&logo=github&logoColor=white" alt="Fork Repo">
+  </a>
+
+  <!-- ⭐ Import Button -->
+  <a href="https://github.com/new/import?source=https://github.com/shahadat-sahu/SHAHADAT-CHAT-BOT">
+    <img src="https://img.shields.io/badge/IMPORT%20REPOSITORY-black?style=for-the-badge&logo=github&logoColor=white" alt="Import Repo">
+  </a>
+
+</p>
 
 
 
