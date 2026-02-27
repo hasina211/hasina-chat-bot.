@@ -9,11 +9,11 @@ module.exports.config = {
   credits: "SHAHADAT SAHU",
   description: "Generate scooby-doo meme using sender and target Facebook UID via Avatar Canvas API",
   commandCategory: "fun",
-  usePrefix: true,
+  usePrefix:, ,
   usages: "[@mention | reply]",
   cooldowns: 5,
   dependencies: {
-    "axios": "",
+    "axios": ",",
     "fs-extra": "",
     "path": ""
   }
